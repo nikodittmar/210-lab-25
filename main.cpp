@@ -1,3 +1,4 @@
+// COMSC 210 | Lab 25 | Niko Dittmar
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -16,12 +17,24 @@ public:
     Benchmark() {
         microseconds = -1;
     }
+
+    // getTime() gets the benchmark time.
+    // arguments: none.
+    // returns: the amount of time the test took.
     int getTime() {
         return microseconds;
     }
+
+    // startTimer() starts the benchmark and begins the clock.
+    // arguments: none.
+    // returns: none.
     void startTimer() {
         start_time = high_resolution_clock::now();
     }
+
+    // endTimer() finishes the benchmark and ends the clock.
+    // arguments: none.
+    // returns: none.
     void endTimer() {
         end_time = high_resolution_clock::now();
         microseconds = duration_cast<std::chrono::microseconds>(end_time - start_time).count();
