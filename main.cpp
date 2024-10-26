@@ -11,20 +11,20 @@ class Benchmark {
 private: 
     time_point<high_resolution_clock> start_time;
     time_point<high_resolution_clock> end_time;
-    int milliseconds;
+    int microseconds;
 public:
     Benchmark() {
-        milliseconds = -1;
+        microseconds = -1;
     }
     int getTime() {
-        return milliseconds;
+        return microseconds;
     }
     void startTimer() {
         start_time = high_resolution_clock::now();
     }
     void endTimer() {
         end_time = high_resolution_clock::now();
-        milliseconds = duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+        microseconds = duration_cast<std::chrono::microseconds>(end_time - start_time).count();
     }
 };
 
@@ -84,10 +84,43 @@ int main() {
     vector.insert(vector.begin() + 10000, toAdd);
     vectorInsert.endTimer();
 
+    Benchmark listInsert;
+    listInsert.startTimer();
+    std::list<string>::iterator it = list.begin();
+    std::advance(it, 10000);
+    list.insert(it, toAdd);
+    listInsert.endTimer();
+
+    Benchmark setInsert;
+    setInsert.startTimer();
+    set.insert(toAdd);
+    setInsert.endTimer();
+
+    // DELETE
+
+    Benchmark vectorDelete;
+    vectorDelete.startTimer();
+    vector.erase(vector.begin() + 10000);
+    vectorDelete.endTimer();
+
+    Benchmark listDelete;
+    listDelete.startTimer();
+    std::list<string>::iterator it2 = list.begin();
+    std::advance(it2, 10000);
+    list.erase(it2);
+    listDelete.endTimer();
+
+    Benchmark setDelete;
+    setDelete.startTimer();
+    set.erase(toAdd);
+    setDelete.endTimer();
 
     cout << setw(10) << "Operation" << setw(10) << "Vector" << setw(10) << "List" << setw(10) << "Set" << endl;
     cout << setw(10) << "Read" << setw(10) << vectorRead.getTime() << setw(10) << listRead.getTime() << setw(10) << setRead.getTime() << endl;
     cout << setw(10) << "Sort" << setw(10) << vectorSort.getTime() << setw(10) << listSort.getTime() << setw(10) << "-1" << endl;
+    cout << setw(10) << "Insert" << setw(10) << vectorInsert.getTime() << setw(10) << listInsert.getTime() << setw(10) << setInsert.getTime() << endl;
+    cout << setw(10) << "Delete" << setw(10) << vectorDelete.getTime() << setw(10) << listDelete.getTime() << setw(10) << setDelete.getTime() << endl;
+
 
     return 0;
 }
