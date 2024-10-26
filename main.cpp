@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <chrono>
+#include <list>
+#include <set>
 using namespace std;
 using namespace std::chrono;
 
@@ -25,7 +28,20 @@ public:
 };
 
 int main() {
+    ifstream fin("codes.txt");
+    list<int> list;
+    set<int> set;
+    vector<int> vector;
+
+    int value;
+    while(fin >> value) {
+        list.push_back(value);
+        set.insert(value);
+        vector.push_back(value);
+    }
+    fin.close();
     
+    // READ
     
     return 0;
 }
