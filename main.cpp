@@ -3,6 +3,7 @@
 #include <chrono>
 #include <list>
 #include <set>
+#include <iomanip>
 using namespace std;
 using namespace std::chrono;
 
@@ -10,38 +11,62 @@ class Benchmark {
 private: 
     time_point<high_resolution_clock> start_time;
     time_point<high_resolution_clock> end_time;
-    int milliseconds;
+    int microseconds;
 public:
     Benchmark() {
-        milliseconds = -1;
+        microseconds = -1;
     }
     int getTime() {
-        return milliseconds;
+        return microseconds;
     }
     void startTimer() {
         start_time = high_resolution_clock::now();
     }
     void endTimer() {
         end_time = high_resolution_clock::now();
-        milliseconds = duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
+        microseconds = duration_cast<std::chrono::microseconds>(end_time - start_time).count();
     }
 };
 
 int main() {
-    ifstream fin("codes.txt");
+
     list<int> list;
     set<int> set;
     vector<int> vector;
 
     int value;
-    while(fin >> value) {
-        list.push_back(value);
-        set.insert(value);
+
+    // READ
+
+    ifstream fin1("codes.txt");
+    Benchmark vectorRead;
+    vectorRead.startTimer();
+    while(fin1 >> value) {
         vector.push_back(value);
     }
-    fin.close();
+    vectorRead.endTimer();
+    fin1.close();
     
-    // READ
+    ifstream fin2("codes.txt");
+    Benchmark listRead;
+    listRead.startTimer();
+    while(fin2 >> value) {
+        list.push_back(value);
+    }
+    listRead.endTimer();
+    fin2.close();
+
+    ifstream fin3("codes.txt");
+    Benchmark setRead;
+    setRead.startTimer();
+    while(fin3 >> value) {
+        set.insert(value);
+    }
+    setRead.endTimer();
+    fin3.close();
+
+    cout << setw(10) << "Operation" << setw(10) << "Vector" << setw(10) << "List" << setw(10) << "Set" << endl;
+    cout << setw(10) << "Read" << setw(10) << vectorRead.getTime() << setw(10) << listRead.getTime() << setw(10) << setRead.getTime() << endl;
     
     return 0;
 }
