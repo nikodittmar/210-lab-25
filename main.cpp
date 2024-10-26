@@ -11,30 +11,30 @@ class Benchmark {
 private: 
     time_point<high_resolution_clock> start_time;
     time_point<high_resolution_clock> end_time;
-    int microseconds;
+    int milliseconds;
 public:
     Benchmark() {
-        microseconds = -1;
+        milliseconds = -1;
     }
     int getTime() {
-        return microseconds;
+        return milliseconds;
     }
     void startTimer() {
         start_time = high_resolution_clock::now();
     }
     void endTimer() {
         end_time = high_resolution_clock::now();
-        microseconds = duration_cast<std::chrono::microseconds>(end_time - start_time).count();
+        milliseconds = duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
     }
 };
 
 int main() {
 
-    list<int> list;
-    set<int> set;
-    vector<int> vector;
+    list<string> list;
+    set<string> set;
+    vector<string> vector;
 
-    int value;
+    string value;
 
     // READ
 
@@ -65,9 +65,30 @@ int main() {
     setRead.endTimer();
     fin3.close();
 
+    // SORT
+    Benchmark vectorSort;
+    vectorSort.startTimer();
+    sort(vector.begin(), vector.end());
+    vectorSort.endTimer();
+
+    Benchmark listSort;
+    listSort.startTimer();
+    list.sort();
+    listSort.endTimer();
+
+    // INSERT
+    string toAdd = "TESTCODE";
+    
+    Benchmark vectorInsert;
+    vectorInsert.startTimer();
+    vector.insert(vector.begin() + 10000, toAdd);
+    vectorInsert.endTimer();
+
+
     cout << setw(10) << "Operation" << setw(10) << "Vector" << setw(10) << "List" << setw(10) << "Set" << endl;
     cout << setw(10) << "Read" << setw(10) << vectorRead.getTime() << setw(10) << listRead.getTime() << setw(10) << setRead.getTime() << endl;
-    
+    cout << setw(10) << "Sort" << setw(10) << vectorSort.getTime() << setw(10) << listSort.getTime() << setw(10) << "-1" << endl;
+
     return 0;
 }
 
