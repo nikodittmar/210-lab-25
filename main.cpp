@@ -1,4 +1,4 @@
-// COMSC 210 | Lab 25 | Niko Dittmar
+// COMSC 210 | Lab 26 | Niko Dittmar
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -77,6 +77,9 @@ int main() {
     return 0;
 }
 
+// runTest() runs one simulation for each benchmark for each data structure.
+// arugments: None
+// returns: a 2d vector with the test results: row 1 is read; row 2 is sort; row 3 is insert; row 4 is delete; col 1 is vector; col 2 is list; col 3 is set.
 vector<vector<int> > runTest() {
     list<string> list;
     set<string> set;
