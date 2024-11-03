@@ -43,29 +43,41 @@ public:
     }
 };
 
-vector<vector<int>> runTest();
+vector<vector<int> > runTest();
 
 int main() {
 
-    vector<vector<vector<int>>> tests;
+    vector<vector<vector<int> > > tests;
 
     for (int i = 0; i < NUM_TESTS; i++) {
         tests.push_back(runTest());
     }
 
-    vector<vector<int>> results;
+    vector<vector<int> > results;
 
+    for (int i = 0; i < 4; i++) {
+        vector<int> averagedResults;
+        for (int j = 0; j < 3; j++) {
+            int sum = 0;
+            for (int k = 0; k < NUM_TESTS; k++) {
+                sum += tests[k][i][j];
+            }
+            averagedResults.push_back(sum / NUM_TESTS);
+        }
+        results.push_back(averagedResults);
+    }
+
+    cout << "Number of simulations: " << NUM_TESTS << endl;
     cout << setw(10) << "Operation" << setw(10) << "Vector" << setw(10) << "List" << setw(10) << "Set" << endl;
     cout << setw(10) << "Read" << setw(10) << results[0][0] << setw(10) << results[0][1] << setw(10) << results[0][2] << endl;
     cout << setw(10) << "Sort" << setw(10) << results[1][0] << setw(10) << results[1][1] << setw(10) << results[1][2] << endl;
     cout << setw(10) << "Insert" << setw(10) << results[2][0] << setw(10) << results[2][1] << setw(10) << results[2][2] << endl;
     cout << setw(10) << "Delete" << setw(10) << results[3][0] << setw(10) << results[3][1] << setw(10) << results[3][2] << endl;
 
-
     return 0;
 }
 
-vector<vector<int>> runTest() {
+vector<vector<int> > runTest() {
     list<string> list;
     set<string> set;
     vector<string> vector;
